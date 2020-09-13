@@ -97,6 +97,22 @@
         if (json["hideNegative"] !== undefined) {
             document.getElementById("showNegative").checked = false
         }
+        if (json["zoom"] !== undefined) {
+            if (!isNaN(parseInt(json["zoom"]))) {
+                universal_scale = parseInt(json["zoom"])
+            }
+        }
+        if (json["x"] !== undefined) {
+            if (!isNaN(parseInt(json["x"]))) {
+                x_shift_px = -(xyToPixels([parseInt(json["x"]), 0], window.innerWidth, window.innerHeight, universal_scale)[0]) + window.innerWidth/2
+            }
+        }
+        if (json["y"] !== undefined) {
+            if (!isNaN(parseInt(json["y"]))) {
+                y_shift_px = (xyToPixels([0,parseInt(json["y"])], window.innerWidth, window.innerHeight, universal_scale)[1]) - window.innerHeight/2
+            }
+        }
+
         updateScreen()
         initEnterListener()
         drawPoints()
