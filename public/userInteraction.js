@@ -81,7 +81,7 @@ window.addEventListener('wheel', function(event) {
             mouseY = Math.pow(Math.abs(mouseY), 0.8)
         }
 
-        console.log(mouseX * ((event.deltaX/23)/universal_scale), mouseY * ((event.deltaY/23)/universal_scale))
+        consol e.log(mouseX * ((event.deltaX/23)/universal_scale), mouseY * ((event.deltaY/23)/universal_scale))
 
         if (event.deltaY < 0) {
             x_shift_px -= (mouseX - x_shift_px) * ((event.deltaX/23)/universal_scale)

@@ -72,8 +72,7 @@ function drawAxes(canvas, width, height) {
 
 }
 
-function drawPoints() {
-
+function updateField() {
     let inputField = document.getElementById("expression")
 
     let shifted = replaceShiftInput(inputField.value, "pi", "π", inputField.selectionStart)
@@ -82,6 +81,11 @@ function drawPoints() {
     inputField.value = inputField.value.replaceAll("x", "θ")
 
     inputField.setSelectionRange(shifted, shifted)
+}
+
+function drawPoints() {
+
+    let inputField = document.getElementById("expression")
 
     let exp = inputField.value
 
