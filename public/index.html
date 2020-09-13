@@ -68,6 +68,8 @@
     <input type="checkbox" id="showNegative" name="showNegative" onclick="drawPoints()" checked>
     <br>
     <label id="scaleDescription" style="font-family: M-PLUS,serif; font-size: 16px; margin: 10px">Scale: 1:1</label>
+    <br>
+    <button onclick="shareCurrent()">Share</button>
 </div>
 
 <div>
@@ -98,18 +100,23 @@
             document.getElementById("showNegative").checked = false
         }
         if (json["zoom"] !== undefined) {
-            if (!isNaN(parseInt(json["zoom"]))) {
-                universal_scale = parseInt(json["zoom"])
+            if (!isNaN(parseFloat(json["zoom"]))) {
+                universal_scale = parseFloat(json["zoom"])
             }
         }
         if (json["x"] !== undefined) {
-            if (!isNaN(parseInt(json["x"]))) {
-                x_shift_px = -(xyToPixels([parseInt(json["x"]), 0], window.innerWidth, window.innerHeight, universal_scale)[0]) + window.innerWidth/2
+            if (!isNaN(parseFloat(json["x"]))) {
+                x_shift_px = -(xyToPixels([parseFloat(json["x"]), 0], window.innerWidth, window.innerHeight, universal_scale)[0]) + window.innerWidth/2
             }
         }
         if (json["y"] !== undefined) {
-            if (!isNaN(parseInt(json["y"]))) {
-                y_shift_px = (xyToPixels([0,parseInt(json["y"])], window.innerWidth, window.innerHeight, universal_scale)[1]) - window.innerHeight/2
+            if (!isNaN(parseFloat(json["y"]))) {
+                y_shift_px = (xyToPixels([0,parseFloat(json["y"])], window.innerWidth, window.innerHeight, universal_scale)[1]) - window.innerHeight/2
+            }
+        }
+        if (json["range"] !== undefined) {
+            if (!isNaN(parseFloat(json["range"]))) {
+                document.getElementById("renderRange").value = parseFloat(json["range"])
             }
         }
 

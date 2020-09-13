@@ -150,6 +150,11 @@ function updateMousePositionDisplay(position) {
     label.innerText = description
 }
 
+function getExpression() {
+    let textBox = document.getElementById("expression")
+    return textBox.value
+}
+
 function mouseInTextBox(position) {
     let textBox = document.getElementById("expression")
     let bounds = textBox.getBoundingClientRect()
@@ -180,6 +185,23 @@ function interpretedText(exp) {
     element.innerText = "Interpreted as : " + exp
 }
 
+
+function shareCurrent() {
+    let url = location.protocol + '//' + location.host + location.pathname + "?exp=" + getExpression() + "&x=" + ((-1)*pixelsToXY([x_shift_px, 0], window.innerWidth, window.innerHeight, universal_scale)[0]).toString() + "&y=" + ((-1)*pixelsToXY([0, y_shift_px], window.innerWidth, window.innerHeight, universal_scale)[1]).toString() + "&zoom=" + universal_scale.toString() + "&range=" + (100*getRenderRange()).toString()
+    if (!document.getElementById("showNegative").checked) {
+        url += "&hideNegative"
+    }
+
+    const el = document.createElement('textarea');
+    el.value = url;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    alert("Link Copied to Clipboard\n" + url)
+    console.log(url)
+}
 
 
 
