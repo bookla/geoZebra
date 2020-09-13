@@ -54,9 +54,9 @@
     <input type="text" id="expression" name="expression" placeholder="Expression (Use x for theta)" style="font-family: M-PLUS-Bold,serif; padding-left: 5px; font-size: 22px; border-radius: 10px; box-shadow: lightgray; border-width: thin; width: 40%" oninput="updateField(); drawPoints();" onchange="updateField(); drawPoints()" autocomplete="off" autocapitalize="off" spellcheck=false>
 
     <div style="float: right; margin: 10px; width: 30%; justify-content: right">
-        <label for="renderRange" style="font-family: M-PLUS,serif; float: right">4π</label>
+        <label for="renderRange" style="font-family: M-PLUS,serif; float: right" id="rangeMax">4π</label>
         <input type="range" min="0" max="200" value="100" class="slider" id="renderRange" style="width: 30%; float: right; margin-top: 5px; margin-left: 10px; margin-right: 10px" oninput="drawPoints()">
-        <label style="font-family: M-PLUS,serif; float: right">0</label>
+        <label style="font-family: M-PLUS,serif; float: right" id="rangeMin">0</label>
         <br>
         <label id="renderRangeDisplay" style="font-family: M-PLUS-Bold,serif; alignment: right; text-align: right; width: 100%; float: right">r = 0, theta = 2π</label>
     </div>
@@ -79,7 +79,7 @@
 <div style="bottom:5px; position:absolute; width:50%">
     <label id="mousePosition" style="font-family: M-PLUS,serif; font-size: 16px; margin: 5px">r = 0, theta = 0</label>
     <br>
-    <label style="font-family: M-PLUS,serif; font-size: 16px; color: dimgray; margin: 5px">Created by Pakkapol Lailert, Version 0.9.9 Build 78</label>
+    <label style="font-family: M-PLUS,serif; font-size: 16px; color: dimgray; margin: 5px">Created by Pakkapol Lailert, Version 1.0.2 Beta Build 122</label>
 </div>
 
 <div style="bottom:5px; right:5px; position:absolute; width:10%; height:20%; float: right; justify-content: right">
@@ -117,6 +117,26 @@
         if (json["range"] !== undefined) {
             if (!isNaN(parseFloat(json["range"]))) {
                 document.getElementById("renderRange").value = parseFloat(json["range"])
+            }
+        }
+        if (json["maxRange"] !== undefined) {
+            if (!isNaN(parseFloat(json["maxRange"]))) {
+                let maxValue = parseFloat(json["maxRange"])
+                document.getElementById("renderRange").max = maxValue
+
+                document.getElementById("rangeMax").innerText = (maxValue / 50).toString() + "π"
+            }
+        }
+        if (json["minRange"] !== undefined) {
+            if (!isNaN(parseFloat(json["minRange"]))) {
+                let minValue = parseFloat(json["minRange"])
+                document.getElementById("renderRange").min = minValue
+
+                if (minValue === 0) {
+                    document.getElementById("rangeMin").innerText = "0"
+                } else {
+                    document.getElementById("rangeMin").innerText = (minValue / 50).toString() + "π"
+                }
             }
         }
 

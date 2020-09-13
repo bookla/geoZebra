@@ -15,7 +15,7 @@ function tryReplaceSyntax(exp, searchValue, replaceValue) {
         let addBracket = ""
 
 
-        if (searchValue !== "θ" && searchValue !== "π" && letterAfter !== "(") {
+        if (searchValue !== "θ" && searchValue !== "π" && searchValue !== "e" && letterAfter !== "(") {
             addBracket = "("
         }
 
@@ -32,7 +32,7 @@ function tryReplaceSyntax(exp, searchValue, replaceValue) {
             } else if ([")", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(letterBefore)) {
                 exp = exp.replace(searchValue, "*" + replaceValue + addBracket)
             } else {
-                exp = exp.replace(searchValue, replaceValue)
+                exp = exp.replace(searchValue, replaceValue + addBracket)
             }
         }
     }
@@ -99,6 +99,7 @@ function inputIsClean(exp) {
     exp = exp.replaceAll("cos", "")
     exp = exp.replaceAll("tan", "")
     exp = exp.replaceAll("cot", "")
+    exp = exp.replaceAll("e", "")
 
 
 
@@ -113,21 +114,6 @@ function inputIsClean(exp) {
 }
 
 
-function replaceShiftInput(exp, searchValue, replaceValue, cursorPosition) {
-    let cursorShift = 0
-    let myExp = exp
-    while (myExp.includes(searchValue)) {
-        let index = myExp.indexOf(replaceValue)
-        if (index <= cursorPosition) {
-            cursorShift += (searchValue.length - replaceValue.length)
-        }
-        myExp = myExp.replace(searchValue, replaceValue)
-    }
-
-    return cursorPosition - cursorShift
-}
-
-
 function replaceFunctions(exp) {
     exp = tryReplaceSyntax(exp, "sin", "Math.siKn")
     exp = tryReplaceSyntax(exp, "cosec", "1/Math.siKn")
@@ -136,6 +122,7 @@ function replaceFunctions(exp) {
     exp = tryReplaceSyntax(exp, "tan", "Math.taKn")
     exp = tryReplaceSyntax(exp, "cot", "1/Math.taKn")
     exp = tryReplaceSyntax(exp, "π", "Math.PKI")
+    exp = tryReplaceSyntax(exp, "e", "Math.E")
 
     return exp
 }
@@ -183,17 +170,35 @@ function getPolar(exp, precision, renderRange) {
     }
 
     let polarCoordinates = []
-    for (let theta = 0; theta <= 2*Math.PI*renderRange; theta += precision) {
-        let res = evaluate(exp, theta)
-        if (res[1] && !isFunction(res[0]) && res[0] !== undefined) {
-            polarCoordinates.push([theta, res[0]])
-        } else {
-            if (theta > 0 && polarCoordinates.length === 0) {
-                console.log("Invalid expression")
-                break
+    if (renderRange < 0) {
+        for (let theta = 0; theta > 2*Math.PI*renderRange; theta -= precision) {
+            let res = evaluate(exp, theta)
+            if (res[1] && !isFunction(res[0]) && res[0] !== undefined) {
+                polarCoordinates.push([theta, res[0]])
+            } else {
+                if (theta > 0 && polarCoordinates.length === 0) {
+                    console.log("Invalid expression")
+                    break
+                }
+            }
+        }
+    } else {
+        for (let theta = 0; theta < 2*Math.PI*renderRange; theta += precision) {
+            let res = evaluate(exp, theta)
+            if (res[1] && !isFunction(res[0]) && res[0] !== undefined) {
+                polarCoordinates.push([theta, res[0]])
+            } else {
+                if (theta > 0 && polarCoordinates.length === 0) {
+                    console.log("Invalid expression")
+                    break
+                }
             }
         }
     }
+
+    let res = evaluate(exp, 2*Math.PI*renderRange)
+    polarCoordinates.push([2*Math.PI*renderRange, res[0]])
+
 
     return polarCoordinates
 }

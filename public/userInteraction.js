@@ -15,6 +15,21 @@ function zoomIn() {
     updateScreen()
 }
 
+
+function replaceShiftInput(exp, searchValue, replaceValue, cursorPosition) {
+    let cursorShift = 0
+    let myExp = exp
+    while (myExp.includes(searchValue)) {
+        let index = myExp.indexOf(replaceValue)
+        if (index <= cursorPosition) {
+            cursorShift += (searchValue.length - replaceValue.length)
+        }
+        myExp = myExp.replace(searchValue, replaceValue)
+    }
+
+    return cursorPosition - cursorShift
+}
+
 function zoomOut() {
     universal_scale += 1
     x_shift_px -= x_shift_px * (1/universal_scale)
@@ -187,7 +202,7 @@ function interpretedText(exp) {
 
 
 function shareCurrent() {
-    let url = location.protocol + '//' + location.host + location.pathname + "?exp=" + getExpression() + "&x=" + ((-1)*pixelsToXY([x_shift_px, 0], window.innerWidth, window.innerHeight, universal_scale)[0]).toString() + "&y=" + ((-1)*pixelsToXY([0, y_shift_px], window.innerWidth, window.innerHeight, universal_scale)[1]).toString() + "&zoom=" + universal_scale.toString() + "&range=" + (100*getRenderRange()).toString()
+    let url = location.protocol + '//' + location.host + location.pathname + "?exp=" + getExpression().replaceAll(" ", "") + "&x=" + ((-1)*pixelsToXY([x_shift_px, 0], window.innerWidth, window.innerHeight, universal_scale)[0]).toString() + "&y=" + ((-1)*pixelsToXY([0, y_shift_px], window.innerWidth, window.innerHeight, universal_scale)[1]).toString() + "&zoom=" + universal_scale.toString() + "&range=" + (100*getRenderRange()).toString()
     if (!document.getElementById("showNegative").checked) {
         url += "&hideNegative"
     }
