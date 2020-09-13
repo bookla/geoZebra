@@ -219,7 +219,7 @@ function interpretedText(exp) {
 
 
 function shareCurrent() {
-    let url = location.protocol + '//' + location.host + location.pathname + "?exp=" + getExpression().replaceAll(" ", "") + "&x=" + ((-1)*pixelsToXY([x_shift_px, 0], window.innerWidth, window.innerHeight, universal_scale)[0]).toString() + "&y=" + ((-1)*pixelsToXY([0, y_shift_px], window.innerWidth, window.innerHeight, universal_scale)[1]).toString() + "&zoom=" + universal_scale.toString() + "&range=" + (100*getRenderRange()).toString()
+    let url = location.protocol + '//' + location.host + location.pathname + "?exp=" + getExpression().replaceAll(" ", "") + "&x=" + ((-1)*pixelsToXY([x_shift_px, 0], window.innerWidth, window.innerHeight, universal_scale)[0]).toString() + "&y=" + ((-1)*pixelsToXY([0, y_shift_px], window.innerWidth, window.innerHeight, universal_scale)[1]).toString() + "&zoom=" + universal_scale.toString() + "&range=" + (100*getRenderRange()).toString() + "&minRange=" + minRange.toString() + "&maxRange=" + maxRange.toString()
     if (!document.getElementById("showNegative").checked) {
         url += "&hideNegative"
     }

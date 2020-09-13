@@ -114,14 +114,10 @@
                 y_shift_px = (xyToPixels([0,parseFloat(json["y"])], window.innerWidth, window.innerHeight, universal_scale)[1]) - window.innerHeight/2
             }
         }
-        if (json["range"] !== undefined) {
-            if (!isNaN(parseFloat(json["range"]))) {
-                document.getElementById("renderRange").value = parseFloat(json["range"])
-            }
-        }
         if (json["maxRange"] !== undefined) {
             if (!isNaN(parseFloat(json["maxRange"]))) {
                 let maxValue = parseFloat(json["maxRange"])
+                maxRange = maxValue
                 document.getElementById("renderRange").max = maxValue
 
                 document.getElementById("rangeMax").innerText = (maxValue / 50).toString() + "π"
@@ -130,6 +126,7 @@
         if (json["minRange"] !== undefined) {
             if (!isNaN(parseFloat(json["minRange"]))) {
                 let minValue = parseFloat(json["minRange"])
+                minRange = minValue
                 document.getElementById("renderRange").min = minValue
 
                 if (minValue === 0) {
@@ -137,6 +134,11 @@
                 } else {
                     document.getElementById("rangeMin").innerText = (minValue / 50).toString() + "π"
                 }
+            }
+        }
+        if (json["range"] !== undefined) {
+            if (!isNaN(parseFloat(json["range"]))) {
+                document.getElementById("renderRange").value = parseFloat(json["range"])
             }
         }
 

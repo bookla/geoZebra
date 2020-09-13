@@ -4,6 +4,9 @@ let cacheExp = "|"
 let cacheRange = -1
 let cacheQuality = -1
 
+let maxRange = 200
+let minRange = 0
+
 let useCache = false
 
 function tryReplaceSyntax(exp, searchValue, replaceValue) {
