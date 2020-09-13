@@ -181,7 +181,7 @@ function plot(canvas, width, height, scale, points, showNegative=false) {
                 pen.lineTo(toPixel[0], toPixel[1])
                 pen.stroke()
             }
-        } else if (fromPoint[2] !== toPoint[2]) {
+        } else if (fromPoint[2] !== toPoint[2] && distance(fromPoint, toPoint) < 20) {
             pen.strokeStyle = "#06C6FF"
             pen.beginPath()
             if (fromPoint[2]) {
@@ -191,22 +191,28 @@ function plot(canvas, width, height, scale, points, showNegative=false) {
             }
             pen.lineTo(originX, originY)
             pen.stroke()
-        } else if (!isFinite(fromPoint[0])){
+        } else if (!isFinite(fromPoint[0]) && nextTwoPoint !== [originX, originY]){
             if (fromPoint[2]) {
                 pen.strokeStyle = "#FF5733"
             } else {
                 pen.strokeStyle = "#06C6FF"
             }
 
+            let nextTwoPixel = xyToPixels(nextTwoPoint, width, height, scale)
+
+            if (isNaN(nextTwoPixel)) {continue}
+
+            console.log(nextTwoPixel)
+
             if (fromPoint[0] > 0) {
                 pen.beginPath()
                 pen.moveTo(1000000, toPixel[1])
-                pen.lineTo(xyToPixels(nextTwoPoint, width, height, scale)[0], xyToPixels(nextTwoPoint, width, height, scale)[1])
+                pen.lineTo(nextTwoPixel[0], nextTwoPixel[1])
                 pen.stroke()
             } else {
                 pen.beginPath()
                 pen.moveTo(-1000000, toPixel[1])
-                pen.lineTo(xyToPixels(nextTwoPoint, width, height, scale)[0], xyToPixels(nextTwoPoint, width, height, scale)[1])
+                pen.lineTo(nextTwoPixel[0], nextTwoPixel[1])
                 pen.stroke()
             }
         }
