@@ -27,7 +27,24 @@ function replaceShiftInput(exp, searchValue, replaceValue, cursorPosition) {
         myExp = myExp.replace(searchValue, replaceValue)
     }
 
-    return cursorPosition - cursorShift
+    return cursorShift
+}
+
+
+function updateField() {
+    let inputField = document.getElementById("expression")
+
+    let shift = replaceShiftInput(inputField.value, "pi", "π", inputField.selectionStart)
+    shift += replaceShiftInput(inputField.value, "^", "**", inputField.selectionStart)
+
+    let shifted = inputField.selectionStart - shift
+
+    inputField.value = inputField.value.replaceAll("pi", "π")
+    inputField.value = inputField.value.replaceAll("x", "θ")
+    inputField.value = inputField.value.replaceAll("^", "**")
+    inputField.value = inputField.value.toLowerCase()
+
+    inputField.setSelectionRange(shifted, shifted)
 }
 
 function zoomOut() {
