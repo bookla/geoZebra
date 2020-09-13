@@ -142,6 +142,7 @@ function plot(canvas, width, height, scale, points, showNegative=false) {
         let originX = width/2 + x_shift_px
         let originY = height/2 + y_shift_px
 
+
         if ((showNegative || (!fromPoint[2] && !toPoint[2])) && (distance(fromPoint, toPoint) < 20 || lineApproachesInfinity(fromPoint, toPoint))) {
 
             if (!fromPoint[2] && toPoint[2]) {
@@ -180,9 +181,14 @@ function plot(canvas, width, height, scale, points, showNegative=false) {
                 pen.lineTo(toPixel[0], toPixel[1])
                 pen.stroke()
             }
-        } else if (fromPoint[2] !== toPoint[2] && distance(fromPoint, [originX, originY]) < 20 ) {
+        } else if (fromPoint[2] !== toPoint[2]) {
+            pen.strokeStyle = "#06C6FF"
             pen.beginPath()
-            pen.moveTo(fromPixel[0], fromPixel[1])
+            if (fromPoint[2]) {
+                pen.moveTo(toPixel[0], toPixel[1])
+            } else {
+                pen.moveTo(fromPixel[0], fromPixel[1])
+            }
             pen.lineTo(originX, originY)
             pen.stroke()
         } else if (!isFinite(fromPoint[0])){
