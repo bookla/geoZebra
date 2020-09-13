@@ -51,7 +51,7 @@
 
 <div style="left: 0; top: 0; width: 100%; position: absolute;">
     <label for="expression" style="font-family: M-PLUS-Bold,serif; font-size: 22px; margin: 10px">r = </label>
-    <input type="text" id="expression" name="expression" placeholder="Expression (Use x for theta)" style="font-family: M-PLUS-Bold,serif; padding-left: 5px; font-size: 22px; border-radius: 10px; box-shadow: lightgray; border-width: thin; width: 40%" oninput="drawPoints()" autocomplete="off" autocapitalize="off" spellcheck=false>
+    <input type="text" id="expression" name="expression" placeholder="Expression (Use x for theta)" style="font-family: M-PLUS-Bold,serif; padding-left: 5px; font-size: 22px; border-radius: 10px; box-shadow: lightgray; border-width: thin; width: 40%" oninput="drawPoints();" onchange="drawPoints()" autocomplete="off" autocapitalize="off" spellcheck=false>
 
     <div style="float: right; margin: 10px; width: 30%; justify-content: right">
         <label for="renderRange" style="font-family: M-PLUS,serif; float: right">4π</label>
@@ -90,8 +90,24 @@
 
 <script>
     function init() {
+        let json = getJsonFromUrl()
+        if (json["exp"] !== undefined) {
+            document.getElementById("expression").value = json["exp"]
+        }
         updateScreen()
         initEnterListener()
+        drawPoints()
+    }
+
+    function getJsonFromUrl(url) {
+        if (!url) url = location.search;
+        let query = url.substr(1);
+        let result = {};
+        query.split("&").forEach(function(part) {
+            let item = part.split("=");
+            result[item[0]] = decodeURIComponent(item[1]);
+        });
+        return result;
     }
 
     window.addEventListener('resize', updateScreen);
