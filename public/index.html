@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GeoZebra</title>
+    <script src="draw.js" type="text/javascript"></script>
+    <script src="userInteraction.js" type="text/javascript"></script>
+    <script src="calculate.js" type="text/javascript"></script>
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/zebra-icon.ico"/>
+
+    <style>
+        @font-face {
+            font-family: M-PLUS;
+            src: url('fonts/MPLUS1p-Regular.ttf');
+        }
+
+        @font-face {
+            font-family: M-PLUS-Bold;
+            src: url('fonts/MPLUS1p-Bold.ttf');
+        }
+
+        body {
+            overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .zoomButton {
+            border-radius: 7px;
+            font-family: M-PLUS-Bold,serif;
+            box-shadow: #dddddd;
+            border-color: #d5d5d5;
+            background-color: #f3f3f3;
+            border-width: 1px;
+        }
+
+    </style>
+</head>
+<body onload="init()">
+
+<canvas style="background-color: white; padding: 0; margin: 0; position: absolute; left: 0; top: 0" id="axisCanvas"></canvas>
+
+<canvas style="background-color: transparent; padding: 0; margin: 0; position: absolute; left: 0; top: 0" id="radialCanvas"></canvas>
+
+<canvas style="background-color: transparent; padding: 0; margin: 0; position: absolute; left: 0; top: 0" id="pointsCanvas"></canvas>
+
+<div style="left: 0; top: 0; width: 100%; position: absolute;">
+    <label for="expression" style="font-family: M-PLUS-Bold,serif; font-size: 22px; margin: 10px">r = </label>
+    <input type="text" id="expression" name="expression" placeholder="Expression (Use x for theta)" style="font-family: M-PLUS-Bold,serif; padding-left: 5px; font-size: 22px; border-radius: 10px; box-shadow: lightgray; border-width: thin; width: 40%" oninput="drawPoints()" autocomplete="off" autocapitalize="off" spellcheck=false>
+
+    <div style="float: right; margin: 10px; width: 30%; justify-content: right">
+        <label for="renderRange" style="font-family: M-PLUS,serif; float: right">4π</label>
+        <input type="range" min="0" max="200" value="100" class="slider" id="renderRange" style="width: 30%; float: right; margin-top: 5px; margin-left: 10px; margin-right: 10px" oninput="drawPoints()">
+        <label style="font-family: M-PLUS,serif; float: right">0</label>
+        <br>
+        <label id="renderRangeDisplay" style="font-family: M-PLUS-Bold,serif; alignment: right; text-align: right; width: 100%; float: right">r = 0, theta = 2π</label>
+    </div>
+
+    <br>
+    <label style="font-family: M-PLUS,serif; font-size: 16px; margin: 10px; width: 100%" id="interpreted">Interpreted as :  </label>
+    <br>
+    <label for="showNegative" style="font-family: M-PLUS,serif; font-size: 16px; margin: 10px">Show regions where r < 0</label>
+    <input type="checkbox" id="showNegative" name="showNegative" onclick="drawPoints()" checked>
+    <br>
+    <label id="scaleDescription" style="font-family: M-PLUS,serif; font-size: 16px; margin: 10px">Scale: 1:1</label>
+</div>
+
+<div>
+
+</div>
+
+<div style="bottom:5px; position:absolute; width:50%">
+    <label id="mousePosition" style="font-family: M-PLUS,serif; font-size: 16px; margin: 5px">r = 0, theta = 0</label>
+    <br>
+    <label style="font-family: M-PLUS,serif; font-size: 16px; color: dimgray; margin: 5px">Created by Pakkapol Lailert, Version 0.9.9 Build 48</label>
+</div>
+
+<div style="bottom:5px; right:5px; position:absolute; width:10%; height:20%; float: right; justify-content: right">
+    <button onclick="zoomIn()" style="margin-right: 10px; color: black; width: 80%; height: 30%; float: right; margin-bottom: 5%; font-size: 20px; touch-action: manipulation;" class="zoomButton">+</button>
+    <br>
+    <button onclick="zoomOut()" style="margin-right: 10px; color: black; width: 80%; height: 30%; float: right; margin-bottom: 5%; font-size: 20px; touch-action: manipulation;" class="zoomButton">-</button>
+    <br>
+    <button onclick="resetZoom()" style="margin-right: 10px; color: black; width: 80%; height: 30%; float: right" class="zoomButton">Reset</button>
+</div>
+
+<script>
+    function init() {
+        updateScreen()
+        initEnterListener()
+    }
+
+    window.addEventListener('resize', updateScreen);
+</script>
+
+</body>
+</html>
