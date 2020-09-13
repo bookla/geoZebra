@@ -103,6 +103,7 @@ function inputIsClean(exp) {
     exp = exp.replaceAll("tan", "")
     exp = exp.replaceAll("cot", "")
     exp = exp.replaceAll("e", "")
+    exp = exp.replaceAll("Math.abs", "")
 
 
 
