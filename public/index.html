@@ -94,6 +94,9 @@
         if (json["exp"] !== undefined) {
             document.getElementById("expression").value = json["exp"]
         }
+        if (json["hideNegative"] !== undefined) {
+            document.getElementById("showNegative").checked = false
+        }
         updateScreen()
         initEnterListener()
         drawPoints()
